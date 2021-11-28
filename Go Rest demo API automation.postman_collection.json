@@ -1,0 +1,1033 @@
+{
+	"info": {
+		"_postman_id": "89cb90db-e27c-4b2a-b9a9-a451d10e5cf2",
+		"name": "Go Rest demo API automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "e2e scenario",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 201\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Verify `name` value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.name).to.eql(pm.environment.get(\"userName\"));",
+									"",
+									"});",
+									"",
+									"pm.test(\"Verify `email` value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.email).to.eql(pm.environment.get(\"email\"));",
+									"",
+									"});",
+									"",
+									"pm.test(\"Verify `gender` value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.gender).to.eql(pm.environment.get(\"gender\"));",
+									"",
+									"});",
+									"",
+									"pm.test(\"Save `id` to enviornment variable for next test steps\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var userdId=jsonData.data.id;",
+									"    pm.environment.set(\"userId\", userdId);",
+									"});",
+									"",
+									"pm.test(\"Save `status` to enviornment variable for next test steps\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var status=jsonData.data.status;",
+									"    pm.environment.set(\"status\", status);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var randomNum=Math.random().toString(36).substring(2);",
+									"",
+									"var email= \"user\"+randomNum+\"@ult.ra\";",
+									"pm.environment.set(\"email\", email);",
+									"",
+									"var name= \"Demo User Nr.\"+randomNum;",
+									"pm.environment.set(\"userName\", name);",
+									"",
+									"var availableGenders = ['male', 'female']; ",
+									"var randomGender = availableGenders[(Math.random() * availableGenders.length) | 0]",
+									"pm.environment.set(\"gender\", randomGender);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"{{userName}}\",\n\t\"email\": \"{{email}}\",\n    \"gender\": \"{{gender}}\",\n\t\"status\": \"active\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 200\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Verify `id` in response matches what was requested\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.id).to.eql(pm.environment.get(\"userId\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `name` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.name).to.eql(pm.environment.get(\"userName\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `email` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.email).to.eql(pm.environment.get(\"email\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `gender` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.gender).to.eql(pm.environment.get(\"gender\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `status` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.status).to.eql(pm.environment.get(\"status\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find User by Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 200\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Verify 1 result was found\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.meta.pagination.total).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Verify `id` in response matches what was requested\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[1]).to.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Verify `id` in response matches what was requested\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].id).to.eql(pm.environment.get(\"userId\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `name` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].name).to.eql(pm.environment.get(\"userName\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `email` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].email).to.eql(pm.environment.get(\"email\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `gender` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].gender).to.eql(pm.environment.get(\"gender\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `status` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].status).to.eql(pm.environment.get(\"status\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/?name={{userName}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{userName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find User by Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 200\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Verify 1 result was found\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.meta.pagination.total).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Verify `id` in response matches what was requested\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[1]).to.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Verify `id` in response matches what was requested\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].id).to.eql(pm.environment.get(\"userId\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `name` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].name).to.eql(pm.environment.get(\"userName\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `email` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].email).to.eql(pm.environment.get(\"email\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `gender` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].gender).to.eql(pm.environment.get(\"gender\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `status` matches what was created one step ago\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].status).to.eql(pm.environment.get(\"status\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/?email={{email}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								""
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "{{email}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update multiple attributes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 200\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Verify `email` was not updated\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.email).to.eql(pm.environment.get(\"email\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `id` was not changed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.id).to.eql(pm.environment.get(\"userId\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `name` was changed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.name).to.eql(pm.environment.get(\"updatedName\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `gender` was not updated\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.gender).to.eql(pm.environment.get(\"gender\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `status` was updated\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.status).to.eql(pm.environment.get(\"updatedStatus\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var currentName = pm.environment.get(\"userName\")\r",
+									"var updatedName = currentName + \" Updated\";\r",
+									"pm.environment.set(\"updatedName\", updatedName);\r",
+									"\r",
+									"var currentStatus = pm.environment.get(\"status\");\r",
+									"\r",
+									"if (currentStatus == 'active') {\r",
+									"    pm.environment.set(\"updatedStatus\", \"inactive\");\r",
+									"}\r",
+									"else pm.environment.set(\"updatedStatus\", \"active\");\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{updatedName}}\",\n    \"email\": \"{{email}}\",\n    \"gender\": \"{{gender}}\",\n    \"status\": \"{{updatedStatus}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Users Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 200\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Verify `email` was updated according to test step\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.email).to.eql(pm.environment.get(\"updatedEmail\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `id` in was not changed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.id).to.eql(pm.environment.get(\"userId\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `name` was not changed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.name).to.eql(pm.environment.get(\"updatedName\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `gender` was not updated\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.gender).to.eql(pm.environment.get(\"gender\"));",
+									"});",
+									"",
+									"pm.test(\"Verify `status` was not updated\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.status).to.eql(pm.environment.get(\"updatedStatus\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var currentEmail = pm.variables.get(\"email\")\r",
+									"var splitCurrentEmail = currentEmail.split(\"@\");\r",
+									"var firstPartUpdated = splitCurrentEmail[0] + \"updated\";\r",
+									"var updatedEmail = firstPartUpdated + \"@\" + splitCurrentEmail[1];\r",
+									"\r",
+									"pm.environment.set(\"updatedEmail\", updatedEmail);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"{{updatedEmail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 204\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(204);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify User is deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 404\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Verify error message in response\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.message).to.eql(\"Resource not found\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Negative cases",
+			"item": [
+				{
+					"name": "Try getting non existing user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 404\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Verify error message in response\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.message).to.eql(\"Resource not found\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{updatedName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"status\": \"{{updatedStatus}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/bad",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								"bad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Try creating with missing mandatory fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 422\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(422);",
+									"});",
+									"",
+									"pm.test(\"Verify error message in response\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].field).to.eql(\"email\");",
+									"    pm.expect(jsonData.data[0].message).to.eql(\"can't be blank\");",
+									"    pm.expect(jsonData.data[1].field).to.eql(\"name\");",
+									"    pm.expect(jsonData.data[1].message).to.eql(\"can't be blank\");",
+									"    pm.expect(jsonData.data[2].field).to.eql(\"gender\");",
+									"    pm.expect(jsonData.data[2].message).to.eql(\"can't be blank\");",
+									"    pm.expect(jsonData.data[3].field).to.eql(\"status\");",
+									"    pm.expect(jsonData.data[3].message).to.eql(\"can't be blank\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Try editing non existing user Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 404\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Verify error message in response\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.message).to.eql(\"Resource not found\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{updatedName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"status\": \"{{updatedStatus}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/bad",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								"bad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Try patching non existing user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 404\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Verify error message in response\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.message).to.eql(\"Resource not found\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{updatedName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"status\": \"{{updatedStatus}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/bad",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								"bad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Try deleting non existing user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code within the response body is 404\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Verify error message in response\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.message).to.eql(\"Resource not found\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{OAuth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{updatedName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"status\": \"{{updatedStatus}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{users}}/bad",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{users}}",
+								"bad"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
