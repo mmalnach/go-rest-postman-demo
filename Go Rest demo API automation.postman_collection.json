@@ -79,16 +79,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -170,16 +160,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
@@ -257,16 +237,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -344,16 +314,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -444,16 +404,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [
 							{
@@ -551,16 +501,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PATCH",
 						"header": [
 							{
@@ -620,16 +560,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -677,16 +607,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
@@ -707,6 +627,26 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -742,16 +682,6 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
@@ -810,16 +740,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -870,16 +790,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [
 							{
@@ -931,16 +841,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PATCH",
 						"header": [
 							{
@@ -992,16 +892,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -1028,6 +918,36 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "bcad395a8713b45e1535d521f8970fa37391238a81bdd5767a15397283a03319",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
